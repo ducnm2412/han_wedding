@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const TARGETS = [
   "main section h2",
   "main section h2 + svg",
-  "#album [role=tablist] li",
+  "#album [role=tablist]",
   "#album [role=tablist] ~ p",
   "#vay-cuoi > div:last-child",
   "#goi-chup article",
@@ -25,7 +25,7 @@ export default function ScrollFx() {
     // Phần tử cùng cha hiện lần lượt
     els.forEach((el) => {
       const sibs = Array.from(el.parentElement?.children ?? []).filter((c) => els.includes(c as HTMLElement));
-      el.style.setProperty("--d", `${Math.min(sibs.indexOf(el), 5) * 90}ms`);
+      el.style.setProperty("--d", `${Math.min(sibs.indexOf(el), 3) * 50}ms`);
       el.dataset.reveal = "";
       el.dataset.from = "bottom";
     });
@@ -33,30 +33,30 @@ export default function ScrollFx() {
     const imgs = Array.from(document.querySelectorAll<HTMLElement>("#album .album-tile, .intro .grid > div, #dich-vu li, #dat-lich .arch"));
     imgs.forEach((el, n) => {
       el.dataset.curtain = "";
-      el.style.setProperty("--d", `${(n % 5) * 110}ms`);
+      el.style.setProperty("--d", `${(n % 4) * 60}ms`);
     });
 
     const io = new IntersectionObserver(
       (entries) =>
         entries.forEach((e) => {
           const el = e.target as HTMLElement;
-          if (e.isIntersecting) el.classList.add("is-visible");
+          if (e.isIntersecting) el.dataset.vis = "1";
           else {
-            el.classList.remove("is-visible");
+            el.dataset.vis = "0";
             // Ra khỏi phía trên → lần sau quay lại (cuộn lên) sẽ trượt từ trên xuống
             el.dataset.from = e.boundingClientRect.top < 0 ? "top" : "bottom";
           }
         }),
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+      { threshold: 0, rootMargin: "15% 0px 15% 0px" },
     );
     els.forEach((el) => io.observe(el));
     // Ảnh bị clip-path cắt về 0 nên không tự "giao" với màn hình được → theo dõi khung cha
     const curtainIo = new IntersectionObserver(
       (entries) =>
         entries.forEach((e) =>
-          imgs.filter((el) => el.parentElement === e.target).forEach((el) => el.classList.toggle("is-visible", e.isIntersecting)),
+          imgs.filter((el) => el.parentElement === e.target).forEach((el) => (el.dataset.vis = e.isIntersecting ? "1" : "0")),
         ),
-      { threshold: 0.1 },
+      { threshold: 0, rootMargin: "20% 0px 20% 0px" },
     );
     new Set(imgs.map((el) => el.parentElement!)).forEach((parent) => curtainIo.observe(parent));
 

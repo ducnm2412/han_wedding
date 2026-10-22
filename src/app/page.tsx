@@ -8,6 +8,8 @@ import Album from "./album";
 import Dresses from "./dresses";
 import ScrollFx from "./scroll-fx";
 import Petals from "./petals";
+import MobileMenu from "./mobile-menu";
+import ContactFab from "./contact-fab";
 import { Flourish, InviteFrame, SongHy } from "./ornaments";
 
 const PHONE = "0589653242";
@@ -53,9 +55,10 @@ export default function Home() {
               </a>
             ))}
           </nav>
-          <a href={`tel:${PHONE}`} className="text-sm underline-offset-8 hover:underline">
+          <a href={`tel:${PHONE}`} className="hidden text-sm underline-offset-8 hover:underline lg:inline">
             {PHONE_LABEL}
           </a>
+          <MobileMenu nav={nav} phone={PHONE} phoneLabel={PHONE_LABEL} />
         </div>
       </SiteHeader>
 
@@ -136,14 +139,16 @@ export default function Home() {
               ))}
             </div>
 
-            <ol className="mt-16 grid gap-6 border-t border-gold/40 pt-10 sm:grid-cols-3 lg:grid-cols-5">
+            <ol className="mt-12 grid grid-cols-1 gap-x-6 gap-y-3 border-t border-gold/40 pt-8 sm:grid-cols-3 sm:gap-y-6 lg:grid-cols-5">
               {steps.map(([t, d], i) => (
-                <li key={t} className="text-center">
-                  <span className="display mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-gold text-xl text-gold">
+                <li key={t} className="flex items-center gap-4 text-left sm:block sm:text-center">
+                  <span className="display flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold text-lg text-gold sm:mx-auto sm:h-11 sm:w-11 sm:text-xl">
                     {i + 1}
                   </span>
-                  <p className="mt-3 font-semibold">{t}</p>
-                  <p className="text-sm text-white/65">{d}</p>
+                  <div>
+                    <p className="font-semibold sm:mt-3">{t}</p>
+                    <p className="text-sm text-white/65">{d}</p>
+                  </div>
                 </li>
               ))}
             </ol>
@@ -154,15 +159,17 @@ export default function Home() {
         <section id="dat-lich" className="relative overflow-hidden bg-wine">
           <InviteFrame className="inset-4 text-gold md:inset-8" />
           <Petals className="opacity-70" />
-          <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-24 md:grid-cols-[1fr_1.3fr] md:px-8 md:py-32">
-            <div className="arch relative mx-auto aspect-[3/4] w-full max-w-sm">
+          <div className="mx-auto grid max-w-7xl items-center gap-6 px-8 py-12 md:grid-cols-[1fr_1.3fr] md:gap-12 md:px-8 md:py-24">
+            <div className="arch relative mx-auto hidden aspect-[3/4] w-full max-w-sm md:block">
               <Image src="/photos/c3.jpg" alt="Cô dâu trong áo dài đỏ" fill sizes="384px" className="object-cover" />
             </div>
             <div>
-              <SongHy className="h-12 w-12 text-xl text-gold" />
-              <h2 className="display mt-4 text-5xl text-white md:text-6xl">Đặt lịch tư vấn</h2>
-              <Flourish className="mt-4 ml-0 text-gold" />
-              <p className="mt-4 mb-12 max-w-md text-white/75">
+              <div className="flex items-center gap-3 md:gap-4">
+                <SongHy className="h-10 w-10 shrink-0 text-lg text-gold md:h-12 md:w-12 md:text-xl" />
+                <h2 className="display text-4xl whitespace-nowrap text-white md:text-6xl">Đặt lịch tư vấn</h2>
+              </div>
+              <Flourish className="mt-3 ml-0 w-48 text-gold md:w-60" />
+              <p className="mt-3 mb-7 max-w-md text-sm text-white/75 md:mb-12 md:text-base">
                 Để lại thông tin, HAN gọi lại trong ngày để hẹn giờ thử váy và xem album mẫu.
               </p>
               <BookingForm />
@@ -173,7 +180,7 @@ export default function Home() {
       </main>
 
       <footer className="bg-ink text-white/75">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-14 pb-10 md:grid-cols-[1.1fr_1fr_1.4fr] md:px-8">
+        <div className="mx-auto grid max-w-7xl gap-7 px-4 pt-10 pb-7 md:grid-cols-[1.1fr_1fr_1.4fr] md:gap-10 md:px-8 md:pt-14 md:pb-10">
           <div>
             <p className="display text-4xl text-white italic">HAN wedding</p>
             <Flourish className="mt-2 ml-0 w-40 text-gold" />
@@ -207,12 +214,12 @@ export default function Home() {
           <iframe
             title="Bản đồ HAN wedding Biên Hòa"
             src="https://www.google.com/maps?q=HAN+Wedding+Ch%E1%BB%A5p+%E1%BA%A3nh+c%C6%B0%E1%BB%9Bi+%C4%91%E1%BA%B9p+Bi%C3%AAn+H%C3%B2a&output=embed"
-            className="h-56 w-full border-0 grayscale-[30%] md:h-full md:min-h-56"
+            className="h-44 w-full border-0 grayscale-[30%] md:h-full md:min-h-56"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
-        <div className="border-t border-white/10 px-4 py-5 pb-24 text-center text-xs text-white/50 md:pb-5">
+        <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-white/50">
           © 2026 HAN wedding — Chụp ảnh cưới đẹp Biên Hòa
         </div>
       </footer>
@@ -220,17 +227,7 @@ export default function Home() {
       <ScrollFx />
 
       {/* Nút liên hệ nhanh */}
-      <div className="fixed right-4 bottom-4 z-30 flex flex-col gap-3">
-        <a href={`https://zalo.me/${PHONE}`} target="_blank" rel="noreferrer" aria-label="Nhắn Zalo" className="fab flex h-14 w-14 items-center justify-center rounded-full bg-[#0068ff] text-sm font-semibold text-white shadow-lg">
-          Zalo
-        </a>
-        <a href={FACEBOOK} target="_blank" rel="noreferrer" aria-label="Nhắn Messenger" className="fab flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#00b2ff] to-[#a033ff] text-white shadow-lg">
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden><path d="M12 2C6.4 2 2 6.1 2 11.6c0 2.9 1.2 5.4 3.1 7.1V22l2.9-1.6c1.2.3 2.5.5 4 .5 5.6 0 10-4.1 10-9.4S17.6 2 12 2zm1 12.6-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 5-2.7-5.5 5.8z"/></svg>
-        </a>
-        <a href={`tel:${PHONE}`} aria-label="Gọi điện" className="fab flex h-14 w-14 items-center justify-center rounded-full bg-wine text-white shadow-lg">
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>
-        </a>
-      </div>
+      <ContactFab phone={PHONE} facebook={FACEBOOK} />
     </>
   );
 }

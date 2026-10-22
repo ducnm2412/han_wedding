@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const field =
-  "w-full border-0 border-b border-white/40 bg-transparent px-0 py-3 text-white placeholder:text-white/50 focus:border-white focus:outline-none focus:ring-0";
+  "w-full border-0 border-b border-white/40 bg-transparent px-0 py-2 text-sm text-white md:py-3 md:text-base placeholder:text-white/50 focus:border-white focus:outline-none focus:ring-0";
 
 export default function BookingForm() {
   const [sent, setSent] = useState<string | null>(null);
@@ -55,17 +55,17 @@ export default function BookingForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-6 sm:grid-cols-2" noValidate={false}>
-      <label className="block">
-        <span className="text-sm text-white/70">Tên của bạn</span>
+    <form onSubmit={onSubmit} className="grid grid-cols-2 gap-x-4 gap-y-4 md:gap-6">
+      <label className="col-span-2 block sm:col-span-1">
+        <span className="text-xs text-white/70 md:text-sm">Tên của bạn</span>
         <input name="name" required autoComplete="name" className={field} placeholder="Nguyễn Ngọc Hân" />
       </label>
-      <label className="block">
-        <span className="text-sm text-white/70">Số điện thoại / Zalo</span>
+      <label className="col-span-2 block sm:col-span-1">
+        <span className="text-xs text-white/70 md:text-sm">Số điện thoại / Zalo</span>
         <input name="phone" required inputMode="tel" autoComplete="tel" className={field} placeholder="09xx xxx xxx" />
       </label>
       <label className="block">
-        <span className="text-sm text-white/70">Bạn quan tâm</span>
+        <span className="text-xs text-white/70 md:text-sm">Bạn quan tâm</span>
         <select name="service" className={`${field} [&>option]:text-ink`} defaultValue="Gói chụp ảnh cưới">
           <option>Gói chụp ảnh cưới</option>
           <option>Thuê váy cưới</option>
@@ -74,20 +74,20 @@ export default function BookingForm() {
         </select>
       </label>
       <label className="block">
-        <span className="text-sm text-white/70">Ngày cưới dự kiến</span>
+        <span className="text-xs text-white/70 md:text-sm">Ngày cưới dự kiến</span>
         <input name="date" type="date" className={`${field} [color-scheme:dark]`} />
       </label>
-      <label className="block sm:col-span-2">
-        <span className="text-sm text-white/70">Bạn muốn HAN biết thêm điều gì?</span>
-        <textarea name="message" rows={2} className={field} placeholder="Concept yêu thích, ngân sách, địa điểm chụp…" />
+      <label className="col-span-2 block">
+        <span className="text-xs text-white/70 md:text-sm">Bạn muốn HAN biết thêm điều gì?</span>
+        <textarea name="message" rows={1} className={field} placeholder="Concept yêu thích, ngân sách, địa điểm chụp…" />
       </label>
       {error && (
-        <p role="alert" className="text-sm text-white sm:col-span-2">
+        <p role="alert" className="col-span-2 text-sm text-white">
           {error}
         </p>
       )}
-      <div className="sm:col-span-2">
-        <button type="submit" className="bg-white px-8 py-4 font-medium text-wine transition-colors hover:bg-ivory">
+      <div className="col-span-2">
+        <button type="submit" className="w-full bg-white px-8 py-3 sm:w-auto md:py-4 font-medium text-wine transition-colors hover:bg-ivory">
           Đặt lịch tư vấn
         </button>
       </div>
