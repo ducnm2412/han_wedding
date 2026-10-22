@@ -1,26 +1,188 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ivory: #f6f0e6;
+  --paper: #fffdf9;
+  --wine: #6b1626;
+  --wine-deep: #4a0d19;
+  --ink: #000000;
+  --smoke: #4f4640;
+  --line: #ddd2c3;
+  --gold: #b8935a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ivory: var(--ivory);
+  --color-paper: var(--paper);
+  --color-wine: var(--wine);
+  --color-wine-deep: var(--wine-deep);
+  --color-ink: var(--ink);
+  --color-smoke: var(--smoke);
+  --color-line: var(--line);
+  --color-gold: var(--gold);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
 }
+
+.script { font-family: var(--font-script), cursive; font-weight: 500; }
+
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 3px;
+}
+
+/* Thanh treo váy */
+.rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--wine) transparent;
+}
+.rail > * {
+  scroll-snap-align: start;
+}
+.hanger::before {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  width: 18px;
+  height: 22px;
+  border: 1.5px solid var(--smoke);
+  border-bottom: none;
+  border-radius: 9px 9px 0 0;
+  transform: translateX(-50%);
+}
+
+/* Một khoảnh khắc chuyển động duy nhất: chữ HAN hiện ra khi tải trang */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(0.25em); letter-spacing: 0.08em; }
+  to { opacity: 1; transform: none; letter-spacing: -0.02em; }
+}
+.hero-mark {
+  animation: rise 1.4s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+}
+
+
+/* v2: khung vòm */
+.arch { border-radius: 999px 999px 0 0; overflow: hidden; }
+.hero-shade { background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.8) 100%); }
+
+/* Hero: tường ảnh trôi */
+@keyframes wall-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@keyframes wall-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+.wall-track { animation: wall-up 60s linear infinite; }
+.wall-down { animation-name: wall-down; }
+
+/* Giới thiệu: ảnh lớn parallax, khung thiệp trượt lên */
+.intro-card { opacity: 0; transform: translateY(60px); transition: opacity 1s ease .2s, transform 1.1s cubic-bezier(.2,.8,.2,1) .2s; }
+.intro.is-in .intro-card { opacity: 1; transform: none; }
+
+/* Dịch vụ: accordion ngang */
+.acc-panel {
+  flex: 1 1 0%;
+  transition: flex-grow 1.1s cubic-bezier(.77,0,.18,1), opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1);
+  opacity: 0; transform: translateY(40px);
+  transition-delay: 0s, calc(var(--i) * 110ms), calc(var(--i) * 110ms);
+}
+.acc.is-in .acc-panel { opacity: 1; transform: none; }
+.acc-panel.is-open { flex-grow: 5; }
+.acc-body { --d1: 420ms; --d2: 540ms; --d3: 660ms; }
+.acc-item, .acc-line { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+.acc-line { transform: scaleX(0); transition: transform .7s cubic-bezier(.2,.8,.2,1) .48s; }
+.acc-item { transition-delay: var(--d1); }
+.is-open .acc-item { opacity: 1; transform: none; }
+.is-open .acc-line { opacity: 1; transform: scaleX(1); }
+.acc-panel:not(.is-open) .acc-item, .acc-panel:not(.is-open) .acc-line { transition-delay: 0s !important; transition-duration: .2s; }
+
+/* Album: ảnh hiện lần lượt khi đổi bộ */
+@keyframes tile-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.album-tile { animation: tile-in .7s cubic-bezier(.2,.8,.2,1) both; }
+.album-fade { animation: fade-in .5s ease both; }
+
+/* Váy cưới: đổi mẫu */
+@keyframes dress-in { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+@keyframes info-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.coverflow { transition: transform 1.1s cubic-bezier(.16,1,.3,1), opacity 1.1s ease, filter 1.1s ease, box-shadow 1.1s ease; transform-style: preserve-3d; will-change: transform; cursor: grab; }
+.coverflow:active { cursor: grabbing; }
+@keyframes breathe { from { transform: scale(1); } to { transform: scale(1.06); } }
+.dress-breathe { animation: breathe 6s ease-in-out infinite alternate; }
+.dress-info { animation: info-in .6s cubic-bezier(.2,.8,.2,1) both; }
+
+/* Gói chụp: thiệp nâng lên khi rê chuột */
+.invite-card { transition: transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease; }
+.invite-card:hover { transform: translateY(-8px); }
+
+/* Hiện ra khi cuộn, cả hai chiều — dùng `translate` để không đè `transform` của hover */
+[data-reveal] {
+  opacity: 0;
+  translate: 0 60px;
+  scale: .94;
+  transition: opacity .8s ease var(--d, 0ms), translate 1s cubic-bezier(.2,.8,.2,1) var(--d, 0ms), scale 1s cubic-bezier(.2,.8,.2,1) var(--d, 0ms);
+}
+[data-reveal][data-from="top"] { translate: 0 -60px; }
+[data-reveal].is-visible { opacity: 1; translate: 0 0; scale: 1; }
+
+/* ===== Hiệu ứng sinh động ===== */
+
+/* Cánh hoa rơi */
+@keyframes petal-fall { from { transform: translateY(-5vh) rotate(0deg); } to { transform: translateY(110vh) rotate(540deg); } }
+@keyframes petal-sway { 0%,100% { margin-left: 0; } 50% { margin-left: 40px; } }
+.petal { animation-name: petal-fall, petal-sway; animation-timing-function: linear, ease-in-out; animation-iteration-count: infinite, infinite; filter: drop-shadow(0 2px 2px rgba(0,0,0,.15)); }
+
+/* Ánh nhũ vàng lướt qua nút đỏ rượu vang */
+a.bg-wine, button.bg-wine { position: relative; overflow: hidden; isolation: isolate; }
+a.bg-wine::after, button.bg-wine::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgba(232,199,160,.55) 50%, transparent 70%);
+  transform: translateX(-120%); animation: shine 4.5s ease-in-out infinite;
+}
+a.bg-wine:hover::after, button.bg-wine:hover::after { animation-duration: 1.1s; }
+@keyframes shine { 0%, 60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+/* Vòng sóng quanh nút liên hệ nổi */
+.fab { position: relative; }
+.fab::before { content: ""; position: absolute; inset: 0; border-radius: 9999px; background: inherit; z-index: -1; animation: ring 2.4s ease-out infinite; }
+.fab:nth-child(2)::before { animation-delay: .8s; }
+.fab:nth-child(3)::before { animation-delay: 1.6s; }
+@keyframes ring { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.8); opacity: 0; } }
+.fab:hover { transform: scale(1.08); }
+.fab { transition: transform .3s ease; }
+
+/* Song Hỷ phát sáng nhẹ */
+@keyframes glow { 0%,100% { box-shadow: 0 0 0 0 rgba(184,147,90,0); } 50% { box-shadow: 0 0 18px 2px rgba(184,147,90,.45); } }
+.songhy { animation: glow 3.2s ease-in-out infinite; }
+
+/* Ảnh mở ra như vén rèm khi cuộn tới */
+[data-curtain] { clip-path: inset(0 0 100% 0); transition: clip-path 1.2s cubic-bezier(.77,0,.18,1) var(--d, 0ms); }
+[data-curtain].is-visible { clip-path: inset(0 0 0 0); }
+
+/* Hoa văn tự vẽ dần */
+svg[data-reveal] path { stroke-dasharray: 320; stroke-dashoffset: 320; transition: stroke-dashoffset 1.8s ease .2s; }
+svg[data-reveal].is-visible path { stroke-dashoffset: 0; }
+
+/* Thanh menu: ẩn khi cuộn xuống, hiện lại khi cuộn lên */
+header.fixed { transition: transform .45s cubic-bezier(.2,.8,.2,1), background-color .3s ease; }
+html[data-scroll="down"] header.fixed { transform: translateY(-100%); }
+
+/* Khối ảnh nghiêng nhẹ theo tốc độ cuộn */
+#album .grid.min-w-0, .intro .aspect-\[4\/5\], #dich-vu ul, #vay-cuoi [aria-roledescription], #goi-chup .grid { transform: skewY(var(--skew, 0deg)); will-change: transform; }
