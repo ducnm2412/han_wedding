@@ -68,20 +68,20 @@ export default function Home() {
           <HeroWall />
           <Petals />
           <div className="absolute inset-x-0 bottom-0 h-[32%] bg-gradient-to-t from-ink via-ink/70 to-transparent" />
-          <div className="relative mx-auto w-full max-w-7xl pt-20 pr-20 pb-8 pl-4 text-white md:px-8 md:pb-10">
-            <div className="flex flex-col items-center gap-5 border-t border-gold/60 pt-6 text-center md:flex-row md:justify-between md:gap-10 md:text-left">
+          <div className="relative mx-auto w-full max-w-7xl px-4 pt-20 pb-6 text-white md:px-8 md:pb-10">
+            <div className="flex flex-col items-start gap-3 border-t border-gold/60 pt-4 text-left md:flex-row md:items-center md:gap-10 md:pt-6 md:justify-between md:gap-10 md:text-left">
               <div className="flex items-center gap-4">
-                <SongHy className="h-10 w-10 shrink-0 text-base text-gold" />
+                <SongHy className="h-8 w-8 shrink-0 text-sm text-gold md:h-10 md:w-10 md:text-base" />
                 <h1 className="hero-mark display text-[clamp(2.25rem,4vw,3.25rem)] leading-none font-light whitespace-nowrap italic">HAN wedding</h1>
               </div>
-              <p className="max-w-md text-sm text-white/85 md:border-l md:border-gold/50 md:pl-8 md:text-base">
+              <p className="max-w-md pr-16 text-sm text-white/85 md:pr-0 md:border-l md:border-gold/50 md:pl-8 md:text-base">
                 Chụp ảnh cưới, váy cưới và makeup cô dâu tại Biên Hòa — trọn vẹn trong một studio.
               </p>
-              <div className="flex shrink-0 flex-wrap justify-center gap-3">
-                <a href="#dat-lich" className="bg-wine px-5 py-2.5 text-sm font-medium hover:bg-wine-deep">
+              <div className="flex w-full shrink-0 gap-2 pr-16 md:w-auto md:gap-3 md:pr-0">
+                <a href="#dat-lich" className="flex-1 bg-wine px-3 py-2.5 text-center text-sm font-medium whitespace-nowrap hover:bg-wine-deep md:flex-none md:px-5">
                   Đặt lịch tư vấn
                 </a>
-                <a href="#album" className="border border-white/80 px-5 py-2.5 text-sm font-medium hover:bg-white hover:text-ink">
+                <a href="#album" className="flex-1 border border-white/80 px-3 py-2.5 text-center text-sm font-medium whitespace-nowrap hover:bg-white hover:text-ink md:flex-none md:px-5">
                   Xem album cưới
                 </a>
               </div>
